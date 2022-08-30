@@ -6,9 +6,13 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require("method-override");
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/user')
 
-const campgrounds = require('./routes/campgrounds');
-const reviews = require('./routes/reviews');
+const userRoutes = require('./routes/users');
+const campgroundsRoutes = require('./routes/campgrounds');
+const reviewsRoutes = require('./routes/reviews');
 
 
 mongoose
@@ -41,8 +45,15 @@ const sessionConfig = {
     maxAge: 1000 * 60 * 60 * 24 * 7
   }
 }
-app.use(session(sessionConfig));
+app.use(session(sessionConfig)); // make sure it's before app.use(passport.session());
 app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 //Middleware
 app.use((req, res, next) => {
@@ -51,8 +62,15 @@ app.use((req, res, next) => {
   next();
 })
 
-app.use('/campgrounds', campgrounds);
-app.use('/campgrounds/:id/reviews', reviews);
+// app.get('/fakeUser', async (req, res) => {
+//   const user = new User({ email:'jolin@gmail.com', username:'Jolin'});
+//   const newUser = await User.register(user, 'chicken');
+//   res.send(newUser);
+// })
+
+app.use('/', userRoutes);
+app.use('/campgrounds', campgroundsRoutes);
+app.use('/campgrounds/:id/reviews', reviewsRoutes);
 
 
 app.get("/", (req, res) => {
