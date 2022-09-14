@@ -37,4 +37,8 @@ CampgroundSchema.post("findOneAndDelete", async function (doc) {
   }
 });
 
+CampgroundSchema.path('images').schema.virtual('thumbnail').get(function() {
+  return this.url.replace('/upload/', '/upload/w_200/');
+});
+
 module.exports = mongoose.model("Campground", CampgroundSchema);
