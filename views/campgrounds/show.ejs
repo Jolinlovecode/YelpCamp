@@ -3,7 +3,7 @@
 
 <div class="row">
   <div class="col-6">
-    <div id='map' style='width: 400px; height: 300px;'></div>
+    <div id="map" style="width: 400px; height: 300px"></div>
     <div id="campgroundCarousel" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
         <% campground.images.forEach((img, index) => { %>
@@ -13,18 +13,27 @@
         <% }) %>
       </div>
 
-      <% if (campground.images.length > 1) {%> 
-      <button class="carousel-control-prev" type="button" data-bs-target="#campgroundCarousel" data-bs-slide="prev">
+      <% if (campground.images.length > 1) {%>
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#campgroundCarousel"
+        data-bs-slide="prev"
+      >
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
       </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#campgroundCarousel" data-bs-slide="next">
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#campgroundCarousel"
+        data-bs-slide="next"
+      >
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Next</span>
       </button>
-      <% } %> 
+      <% } %>
     </div>
-
 
     <div class="card mb-3">
       <div class="card-body">
@@ -137,6 +146,7 @@
 
 <script>
   const mapToken = '<%-process.env.MAPBOX_TOKEN %>';
+  const campground = <%- JSON.stringify(campground) %>;
 </script>
 
 <script src="/javascripts/showPageMap.js"></script>
