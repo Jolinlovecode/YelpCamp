@@ -10,6 +10,9 @@ mapboxgl.accessToken = mapToken;
   map.setFog({}); // Set the default atmosphere style
   });
 
+const nav = new mapboxgl.NavigationControl();
+map.addControl(nav); 
+
 new mapboxgl.Marker()
     .setLngLat(campground.geometry.coordinates)
     .setPopup(
